@@ -1,55 +1,141 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Maitencillo Beach QR</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maitencillo Beach</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f5f5f5;
+    text-align:center;
+}
+
+.hero{
+    background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') center/cover;
+    height:300px;
+}
+
+.contenido{
+    padding:20px;
+}
+
+.logo{
+    max-width:320px;
+    width:90%;
+    margin-top:-60px;
+    background:white;
+    border-radius:20px;
+    padding:10px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.2);
+}
+
+.contador{
+    font-size:40px;
+    font-weight:bold;
+    color:#ff6600;
+}
+
+.boton{
+    display:block;
+    width:250px;
+    margin:15px auto;
+    padding:15px;
+    border-radius:10px;
+    text-decoration:none;
+    color:white;
+    font-weight:bold;
+    font-size:18px;
+}
+
+.whatsapp{
+    background:#25D366;
+}
+
+.instagram{
+    background:#E1306C;
+}
+</style>
 </head>
+
 <body>
 
-<h1>Maitencillo Beach QR</h1>
+<div class="hero"></div>
 
-<p>Visitas totales:</p>
-<h2 id="contador">0</h2>
+<div class="contenido">
+
+<img src="https://i.imgur.com/9s8zP7M.png" class="logo">
+
+<h1>Maitencillo Beach</h1>
+
+<p>Visitas registradas</p>
+<div id="contador" class="contador">0</div>
+
+<a class="boton whatsapp"
+href="https://wa.me/56933994369">
+📲 WhatsApp
+</a>
+
+<a class="boton instagram"
+href="https://instagram.com/maitencillobeach.com"
+target="_blank">
+📸 Instagram
+</a>
+
+</div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import {
-    getFirestore,
-    doc,
-    getDoc,
-    setDoc,
-    updateDoc
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  const firebaseConfig = {
-   apiKey: "AIzaSyD5pcwynQC73jVsW-gTdwaYl9Ud8hiGDvs",
-  authDomain: "maitencillo-beach-qr.firebaseapp.com",
-  projectId: "maitencillo-beach-qr",
-  storageBucket: "maitencillo-beach-qr.firebasestorage.app",
-  messagingSenderId: "691520177333",
-  appId: "1:691520177333:web:ef11414dfd4501d9bf6afc",
-  measurementId: "G-GRR9Z1GSG1"
-  };
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+import {
+getFirestore,
+doc,
+getDoc,
+setDoc,
+updateDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  const contadorRef = doc(db, "contador", "visitas");
+const firebaseConfig = {
+apiKey: ""AIzaSyD5pcwynQC73jVsW-gTdwaYl9Ud8hiGDvs"",
+authDomain: "maitencillo-beach-qr.firebaseapp.com",
+projectId: "maitencillo-beach-qr",
+storageBucket: "maitencillo-beach-qr.firebasestorage.app",
+messagingSenderId: "691520177333",
+appId: "1:691520177333:web:ef11414dfd4501d9bf6afc",
+measurementId: "G-GRR9Z1GSG1"
+};
 
-  async function contarVisita() {
-    const docSnap = await getDoc(contadorRef);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-    if (!docSnap.exists()) {
-      await setDoc(contadorRef, { total: 1 });
-      document.getElementById("contador").innerText = 1;
-    } else {
-      const total = docSnap.data().total + 1;
-      await updateDoc(contadorRef, { total });
-      document.getElementById("contador").innerText = total;
-    }
-  }
+const contadorRef = doc(db, "contador", "visitas");
 
-  contarVisita();
+async function contarVisita() {
+
+const docSnap = await getDoc(contadorRef);
+
+if (!docSnap.exists()) {
+
+await setDoc(contadorRef, { total: 1 });
+document.getElementById("contador").innerText = 1;
+
+} else {
+
+const total = docSnap.data().total + 1;
+
+await updateDoc(contadorRef, {
+total: total
+});
+
+document.getElementById("contador").innerText = total;
+}
+}
+
+contarVisita();
+
 </script>
 
 </body>
