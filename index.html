@@ -1,11 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Maitencillo Beach QR</title>
+    <meta charset="UTF-8">
+    <title>Maitencillo Beach QR</title>
 </head>
 <body>
+
 <h1>Maitencillo Beach QR</h1>
-<p>Prueba funcionando.</p>
+
+<p>Visitas totales:</p>
+<h2 id="contador">0</h2>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc,
+    updateDoc
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+   apiKey: "AIzaSyD5pcwynQC73jVsW-gTdwaYl9Ud8hiGDvs",
+  authDomain: "maitencillo-beach-qr.firebaseapp.com",
+  projectId: "maitencillo-beach-qr",
+  storageBucket: "maitencillo-beach-qr.firebasestorage.app",
+  messagingSenderId: "691520177333",
+  appId: "1:691520177333:web:ef11414dfd4501d9bf6afc",
+  measurementId: "G-GRR9Z1GSG1"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const contadorRef = doc(db, "contador", "visitas");
+
+  async function contarVisita() {
+    const docSnap = await getDoc(contadorRef);
+
+    if (!docSnap.exists()) {
+      await setDoc(contadorRef, { total: 1 });
+      document.getElementById("contador").innerText = 1;
+    } else {
+      const total = docSnap.data().total + 1;
+      await updateDoc(contadorRef, { total });
+      document.getElementById("contador").innerText = total;
+    }
+  }
+
+  contarVisita();
+</script>
+
 </body>
 </html>
